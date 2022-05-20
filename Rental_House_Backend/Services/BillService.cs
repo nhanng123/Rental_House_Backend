@@ -36,13 +36,19 @@ namespace Rental_House_Backend.Services
 
             ElectricBill electricBill = new ElectricBill();
             electricBill.RoomId = roomId;
+            electricBill.Old_Number = pre_elec_num.Electric_Number;
             electricBill.Electric_Number = electric_num;
+            electricBill.Electric_Price = otherfee.ElectricFee;
+            electricBill.Total = bill.Electric_Fee;
             electricBill.Electric_Date = today;
             billDbContext.ElectricBill.Add(electricBill);
 
             WaterBill waterBill = new WaterBill();
             waterBill.RoomId = roomId;
+            waterBill.Old_Number = pre_water_num.Water_Number;
             waterBill.Water_Number= water_num;
+            waterBill.Price = otherfee.WaterFee;
+            waterBill.Total = bill.Water_Fee;
             waterBill.Water_Date = today;
             billDbContext.WaterBill.Add(waterBill);
 
@@ -96,6 +102,16 @@ namespace Rental_House_Backend.Services
         public Bill[] GetBillList()
         {
            return billDbContext.Bill.ToArray();
+        }
+
+        public List<ElectricBill> GetRoomElectricBills(int roomId)
+        {
+            return billDbContext.ElectricBill.Where(x => x.RoomId == roomId).ToList();
+        }
+
+        public List<WaterBill> GetRoomWaterBills(int roomId)
+        {
+            return billDbContext.WaterBill.Where(x => x.RoomId == roomId).ToList();
         }
     }
 }

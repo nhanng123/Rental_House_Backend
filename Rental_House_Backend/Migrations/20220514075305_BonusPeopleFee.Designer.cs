@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Rental_House_Backend.Data;
 
@@ -11,9 +12,10 @@ using Rental_House_Backend.Data;
 namespace Rental_House_Backend.Migrations
 {
     [DbContext(typeof(RentalHouseDbContext))]
-    partial class RentalHouseDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220514075305_BonusPeopleFee")]
+    partial class BonusPeopleFee
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -506,16 +508,7 @@ namespace Rental_House_Backend.Migrations
                     b.Property<int>("Electric_Number")
                         .HasColumnType("int");
 
-                    b.Property<int>("Electric_Price")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Old_Number")
-                        .HasColumnType("int");
-
                     b.Property<int>("RoomId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Total")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -617,16 +610,7 @@ namespace Rental_House_Backend.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("Old_Number")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Price")
-                        .HasColumnType("int");
-
                     b.Property<int>("RoomId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Total")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("Water_Date")

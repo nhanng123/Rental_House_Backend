@@ -25,6 +25,18 @@ namespace Rental_House_Backend.Controllers
         }
 
         [HttpGet]
+        public IActionResult GetCurrentCustomers()
+        {
+            return Ok(customerService.GetCurrentCustomers());
+        }
+
+        [HttpGet]
+        public IActionResult GetOldCustomers()
+        {
+            return Ok(customerService.GetOldCustomers());
+        }
+
+        [HttpGet]
         [Route("api/[Controller]/GetByRoom/{id}")]
         public IActionResult GetRoomCustomer(int id)
         {

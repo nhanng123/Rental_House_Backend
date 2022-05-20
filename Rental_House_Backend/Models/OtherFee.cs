@@ -7,6 +7,7 @@
         public int WaterFee { get; set; }
         public int GarbageFee { get; set; }
         public int WifiFee { get; set; }
+        public int BonusPeopleFee { get; set; }
         
     }
 }

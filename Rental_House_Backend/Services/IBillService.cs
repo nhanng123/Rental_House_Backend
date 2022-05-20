@@ -11,5 +11,7 @@ namespace Rental_House_Backend.Services
         Boolean UpdateBill(Bill bill);
         Boolean RemoveBill(int id);
         Boolean Pay(int id);
+        List<ElectricBill> GetRoomElectricBills(int roomId);
+        List<WaterBill> GetRoomWaterBills(int roomId);
     }
 }

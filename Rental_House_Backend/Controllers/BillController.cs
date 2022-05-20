@@ -37,6 +37,18 @@ namespace Rental_House_Backend.Controllers
             return Ok(billService.GetBill(id));
         }
 
+        [HttpGet("{id}")]
+        public IActionResult GetElectricBills(int id)
+        {
+            return Ok(billService.GetRoomElectricBills(id));
+        }
+
+        [HttpGet("{id}")]
+        public IActionResult GetWaterBills(int id)
+        {
+            return Ok(billService.GetRoomWaterBills(id));
+        }
+
         // POST api/<BillController>
         [HttpPost]
         public IActionResult Post(int roomId,int electric_num,int water_num)
