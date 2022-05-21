@@ -4,7 +4,7 @@ namespace Rental_House_Backend.Models
 {
     public class WaterBill
     {
-        public int Id { get; set; }
+        public int Id { get; private set; }
         public int RoomId { get; set; }
         public int Old_Number { get; set; }
         public int Water_Number { get; set; }

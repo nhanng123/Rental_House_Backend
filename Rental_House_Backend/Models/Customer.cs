@@ -2,10 +2,11 @@
 {
     public class Customer
     {
-        public int Id { get; set; }
+        public int Id { get; private set; }
         public string Name { get; set; }
         public string Id_Number { get; set; }
         public DateTime DoB { get; set; }
+        public int Hometown { get; set; }
         public string Initial_Address { get; set; }
         public string Job { get; set; }
         public string Nationality { get; set; }
