@@ -37,13 +37,15 @@ namespace Rental_House_Backend.Controllers
             return Ok(billService.GetBill(id));
         }
 
-        [HttpGet("{id}")]
+        [HttpGet]
+        [Route("api/[Controller]/room+electric/{id}")]
         public IActionResult GetElectricBills(int id)
         {
             return Ok(billService.GetRoomElectricBills(id));
         }
 
-        [HttpGet("{id}")]
+        [HttpGet]
+        [Route("api/[Controller]/room+water/{id}")]
         public IActionResult GetWaterBills(int id)
         {
             return Ok(billService.GetRoomWaterBills(id));

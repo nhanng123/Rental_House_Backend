@@ -25,12 +25,14 @@ namespace Rental_House_Backend.Controllers
         }
 
         [HttpGet]
+        [Route("api/[Controller]/current+customers")]
         public IActionResult GetCurrentCustomers()
         {
             return Ok(customerService.GetCurrentCustomers());
         }
 
         [HttpGet]
+        [Route("api/[Controller]/old+customers")]
         public IActionResult GetOldCustomers()
         {
             return Ok(customerService.GetOldCustomers());
