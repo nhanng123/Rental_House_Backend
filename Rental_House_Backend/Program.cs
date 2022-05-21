@@ -11,8 +11,11 @@ using Rental_House_Backend.Models;
 using Rental_House_Backend.Services;
 using System.Security.Claims;
 using System.Text.Json;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
+
+
 
 builder.Services.AddControllers();
 
@@ -24,7 +27,7 @@ builder.Services.AddDbContext<RentalHouseDbContext>(options =>
     options.UseSqlServer(connectionString));
 
 
-builder.Services.AddDefaultIdentity<ApplicationUser>()
+builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<RentalHouseDbContext>();
 
 builder.Services.AddIdentityServer()
@@ -122,10 +125,13 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseCors("default");
 app.UseIdentityServer();
+
+
 app.UseAuthorization();
 
 
 app.MapControllers();
+app.MapRazorPages();
 
 app.Run();
 
