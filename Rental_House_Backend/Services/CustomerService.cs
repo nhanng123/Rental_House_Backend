@@ -77,6 +77,11 @@ namespace Rental_House_Backend.Services
                 _customerDbContext.Room.Update(toRoom);
             }
 
+            if (customer.Room == 0)
+            {
+                customer.EndDate = DateTime.Today;
+            }
+
             _customerDbContext.Customer.Update(customer);
             _customerDbContext.SaveChanges();
             return true;
