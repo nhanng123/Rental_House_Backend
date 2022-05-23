@@ -14,7 +14,7 @@ namespace Rental_House_Backend.Services
         public bool AddCustomer(Customer customer)
         {
             var room = _customerDbContext.Room.Find(customer.Room);
-            var otherfee = _customerDbContext.OtherFee.Find(1);
+            var otherfee = _customerDbContext.OtherFee.Find(3);
             room.Number_Of_People += 1;
 
             if (room.Number_Of_People == 1)
