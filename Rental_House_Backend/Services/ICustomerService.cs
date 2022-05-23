@@ -8,10 +8,10 @@ namespace Rental_House_Backend.Services
         List<Customer> GetRoomCustomers(int roomId);
         List<Customer> GetCurrentCustomers();
         List<Customer> GetOldCustomers();
-        Customer GetCustomer(int customerId);
+        Customer GetCustomer(string customerId);
         Boolean AddCustomer(Customer customer);
-        Boolean RemoveCustomer(int customerId);
+        Boolean RemoveCustomer(string customerId);
         Boolean UpdateCustomer(Customer customer);
-        Boolean ChangeRoom(int customerId, int roomId);
+        Boolean ChangeRoom(string customerId, int roomId);
     }
 }

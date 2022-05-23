@@ -10,10 +10,9 @@ namespace Rental_House_Backend.Configuration
         public void Configure(EntityTypeBuilder<Customer> builder)
         {
             builder.ToTable("customers");
-            builder.HasKey(x => x.Id);
+            builder.HasKey(x => x.Id_Number);
             builder.Property(x => x.Name).IsRequired();
             builder.Property(x => x.DoB).IsRequired();
-            builder.Property(x => x.Id_Number);
             builder.Property(x => x.Nationality).IsRequired();
             builder.Property(x => x.Initial_Address).IsRequired();
             builder.Property(x => x.Job).IsRequired();

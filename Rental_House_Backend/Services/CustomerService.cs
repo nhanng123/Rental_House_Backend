@@ -33,10 +33,10 @@ namespace Rental_House_Backend.Services
             return true;
         }
 
-        public bool ChangeRoom(int customerId, int roomId)
+        public bool ChangeRoom(string customerId, int roomId)
         {
             Customer customer = _customerDbContext.Customer.Find(customerId);
-            var otherfee = _customerDbContext.OtherFee.Find(1);
+            var otherfee = _customerDbContext.OtherFee.Find(3);
             if (customer == null)
             {
                 return false;
@@ -97,7 +97,7 @@ namespace Rental_House_Backend.Services
             return _customerDbContext.Customer.Where(x => x.Room != 0).ToList();
         }
 
-        public Customer GetCustomer(int customerId)
+        public Customer GetCustomer(string customerId)
         {
             return _customerDbContext.Customer.Find(customerId);
         }
@@ -112,7 +112,7 @@ namespace Rental_House_Backend.Services
             return _customerDbContext.Customer.Where(x => x.Room==roomId).ToList();
         }
 
-        public bool RemoveCustomer(int customerId)
+        public bool RemoveCustomer(string customerId)
         {
 
             Customer cus = _customerDbContext.Customer.Find(customerId);

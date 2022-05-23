@@ -7,7 +7,7 @@ using Rental_House_Backend.Services;
 
 namespace Rental_House_Backend.Controllers
 {
-    [Authorize]
+   
     [Route("api/[controller]")]
     [ApiController]
     public class CustomerController : ControllerBase
@@ -49,7 +49,7 @@ namespace Rental_House_Backend.Controllers
 
         // GET api/<ValuesController>/5
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public IActionResult Get(string id)
         {
             return Ok(customerService.GetCustomer(id));
         }
@@ -69,14 +69,14 @@ namespace Rental_House_Backend.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult changeRoom(int id, int roomId)
+        public IActionResult changeRoom(string id, int roomId)
         {
             return Ok(customerService.ChangeRoom(id, roomId));
         }
 
         // DELETE api/<ValuesController>/5
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public IActionResult Delete(string id)
         {
             return Ok(customerService.RemoveCustomer(id));
         }
