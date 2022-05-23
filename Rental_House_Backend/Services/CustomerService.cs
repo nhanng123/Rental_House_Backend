@@ -19,7 +19,7 @@ namespace Rental_House_Backend.Services
 
             if (room.Number_Of_People == 1)
             {
-                room.State = "not available";
+                room.State = "Đã Cho Thuê";
             }
             else
             {
@@ -48,7 +48,7 @@ namespace Rental_House_Backend.Services
 
                 if (room.Number_Of_People == 0)
                 {
-                    room.State = "available";
+                    room.State = "Còn Trống";
                 }
                 else
                 {
@@ -67,7 +67,7 @@ namespace Rental_House_Backend.Services
                
                 if (toRoom.Number_Of_People == 1)
                 {
-                    toRoom.State = "not available";
+                    toRoom.State = "Đã Cho Thuê";
                 }
                 else
                 {
@@ -112,20 +112,23 @@ namespace Rental_House_Backend.Services
 
             Customer cus = _customerDbContext.Customer.Find(customerId);
         
-            var room = _customerDbContext.Room.Find(cus.Room);
-            room.Number_Of_People --;
-            if(room.Number_Of_People == 0)
+            if(cus.Room != 0)
             {
-                room.State = "available";
-            }
-            else
-            {
-                var otherfee = _customerDbContext.OtherFee.Find(1);
-                room.Price -= otherfee.BonusPeopleFee;
+                var room = _customerDbContext.Room.Find(cus.Room);
+                room.Number_Of_People--;
+                if (room.Number_Of_People == 0)
+                {
+                    room.State = "Còn Trống";
+                }
+                else
+                {
+                    var otherfee = _customerDbContext.OtherFee.Find(1);
+                    room.Price -= otherfee.BonusPeopleFee;
+                }
+                _customerDbContext.Room.Update(room);
             }
             
             _customerDbContext.Customer.Remove(cus);
-            _customerDbContext.Room.Update(room);
             _customerDbContext.SaveChanges();
             return true;
         }

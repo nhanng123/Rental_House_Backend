@@ -24,10 +24,11 @@ builder.Services.AddSwaggerGen();
 
 var connectionString = builder.Configuration.GetConnectionString("RentalHousesDatabase");
 builder.Services.AddDbContext<RentalHouseDbContext>(options =>
+
     options.UseSqlServer(connectionString));
 
 
-builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddEntityFrameworkStores<RentalHouseDbContext>();
 
 builder.Services.AddIdentityServer()
