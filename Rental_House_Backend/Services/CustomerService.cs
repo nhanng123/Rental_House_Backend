@@ -23,7 +23,10 @@ namespace Rental_House_Backend.Services
             }
             else
             {
-                room.Price += otherfee.BonusPeopleFee;
+                if(room.Number_Of_People > 2)
+                {
+                    room.Price += otherfee.BonusPeopleFee;
+                }
             }
            
 
@@ -52,7 +55,10 @@ namespace Rental_House_Backend.Services
                 }
                 else
                 {
-                    room.Price -= otherfee.BonusPeopleFee;
+                    if( room.Number_Of_People >= 2)
+                    {
+                        room.Price -= otherfee.BonusPeopleFee;
+                    }
                 }
                 customer.Room = 0;
 
@@ -71,7 +77,10 @@ namespace Rental_House_Backend.Services
                 }
                 else
                 {
-                    toRoom.Price += otherfee.BonusPeopleFee;
+                   if( toRoom.Number_Of_People > 2)
+                    {
+                        toRoom.Price += otherfee.BonusPeopleFee;
+                    }
                 }
 
                 _customerDbContext.Room.Update(toRoom);
@@ -127,8 +136,11 @@ namespace Rental_House_Backend.Services
                 }
                 else
                 {
-                    var otherfee = _customerDbContext.OtherFee.Find(1);
-                    room.Price -= otherfee.BonusPeopleFee;
+                    if(room.Number_Of_People > 2)
+                    {
+                        var otherfee = _customerDbContext.OtherFee.Find(1);
+                        room.Price -= otherfee.BonusPeopleFee;
+                    }
                 }
                 _customerDbContext.Room.Update(room);
             }
