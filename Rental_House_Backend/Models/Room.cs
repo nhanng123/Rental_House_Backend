@@ -4,7 +4,7 @@ namespace Rental_House_Backend.Models
 {
     public class Room
     {
-        public int Id { get; private set; }
+        public int Id { get; set; }
         public string Name { get; set; }
         public string State { get; set; }
         public int Number_Of_People { get; set; }

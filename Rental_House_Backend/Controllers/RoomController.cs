@@ -39,9 +39,13 @@ namespace Rental_House_Backend.Controllers
         }
 
         // PUT api/<RoomController>/5
-        [HttpPut]
-        public IActionResult Put(Room room)
+        [HttpPost("{id}")]
+        public IActionResult UpdateRoom(int id,Room room)
         {
+            if(id != room.Id)
+            {
+                return BadRequest();
+            }
             return Ok(_roomService.UpdateRoom(room));
         }
 

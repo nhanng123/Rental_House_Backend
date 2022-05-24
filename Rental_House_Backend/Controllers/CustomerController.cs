@@ -62,9 +62,12 @@ namespace Rental_House_Backend.Controllers
         }
 
         // PUT api/<ValuesController>
-        [HttpPut]
-        public IActionResult Put(Customer customer)
+        [HttpPost("{id}")]
+        public IActionResult Put(string id,Customer customer)
         {
+            if (!id.Equals(customer.Id_Number)) {
+                return BadRequest();
+            }
             return Ok(customerService.UpdateCustomer(customer));
         }
 
