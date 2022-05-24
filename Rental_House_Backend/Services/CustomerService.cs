@@ -64,6 +64,11 @@ namespace Rental_House_Backend.Services
 
                 _customerDbContext.Room.Update(room);
             }
+            else
+            {
+                customer.StartDate = DateTime.Today;
+                customer.EndDate = DateTime.Today;
+            }
 
             if (roomId != 0)
             {
@@ -89,6 +94,7 @@ namespace Rental_House_Backend.Services
             if (customer.Room == 0)
             {
                 customer.EndDate = DateTime.Today;
+               
             }
 
             _customerDbContext.Customer.Update(customer);
