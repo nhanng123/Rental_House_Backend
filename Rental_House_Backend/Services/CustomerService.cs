@@ -150,9 +150,19 @@ namespace Rental_House_Backend.Services
             return true;
         }
 
-        public bool UpdateCustomer(Customer customer)
+        public bool UpdateCustomer(String id,Customer customer)
         {
-            _customerDbContext.Customer.Update(customer);
+            if(id == customer.Id_Number)
+            {
+                _customerDbContext.Customer.Update(customer);
+            }
+            else
+            {
+                var cus = _customerDbContext.Customer.Find(id);
+                _customerDbContext.Customer.Remove(cus);
+                _customerDbContext.Customer.Add(customer);
+            }
+           
             _customerDbContext.SaveChanges();
             return true;
         }

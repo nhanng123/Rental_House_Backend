@@ -47,6 +47,10 @@ namespace Rental_House_Backend.Services
         public bool RemoveRoom(int id)
         {
             Room room = _roomDbContext.Room.Find(id);
+            if(room != null || room.Number_Of_People != 0)
+            {
+                return false;
+            }
             _roomDbContext.Room.Remove(room);
             _roomDbContext.SaveChanges();
             return true;

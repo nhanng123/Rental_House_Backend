@@ -11,7 +11,7 @@ namespace Rental_House_Backend.Services
         Customer GetCustomer(string customerId);
         Boolean AddCustomer(Customer customer);
         Boolean RemoveCustomer(string customerId);
-        Boolean UpdateCustomer(Customer customer);
+        Boolean UpdateCustomer(string id,Customer customer);
         Boolean ChangeRoom(string customerId, int roomId);
     }
 }

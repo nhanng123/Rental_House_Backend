@@ -7,7 +7,7 @@ using Rental_House_Backend.Services;
 
 namespace Rental_House_Backend.Controllers
 {
-   
+
     [Route("api/[controller]")]
     [ApiController]
     public class CustomerController : ControllerBase
@@ -62,17 +62,14 @@ namespace Rental_House_Backend.Controllers
         }
 
         // PUT api/<ValuesController>
-        [HttpPost("{id}")]
-        public IActionResult Put(string id,Customer customer)
+        [HttpPut]
+        public IActionResult Put(String id,Customer customer)
         {
-            if (!id.Equals(customer.Id_Number)) {
-                return BadRequest();
-            }
-            return Ok(customerService.UpdateCustomer(customer));
+            return Ok(customerService.UpdateCustomer( id,customer));
         }
 
         [HttpPut("{id}")]
-        public IActionResult changeRoom(string id, int roomId)
+        public IActionResult changeRoom(String id, int roomId)
         {
             return Ok(customerService.ChangeRoom(id, roomId));
         }
