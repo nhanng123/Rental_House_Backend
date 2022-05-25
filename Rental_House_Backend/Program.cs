@@ -112,6 +112,7 @@ builder.Services.AddScoped<IBillService, BillService>();
 builder.Services.AddScoped<IRequestRepairService, RequestRepairService>();
 builder.Services.AddScoped<IBookingService, BookingService>();
 builder.Services.AddSingleton<IClientStore, CustomClientStore>();
+builder.Services.AddScoped<IAccountService, AccountService>();
 
 
 var app = builder.Build();

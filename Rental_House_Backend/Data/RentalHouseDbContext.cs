@@ -29,6 +29,7 @@ namespace Rental_House_Backend.Data
             modelBuilder.ApplyConfiguration(new ElectricBillConfiguration());
             modelBuilder.ApplyConfiguration(new WaterBillConfiguration());
             modelBuilder.ApplyConfiguration(new OtherFeeConfiguration());
+            modelBuilder.ApplyConfiguration(new AccountConfiguration());
             modelBuilder.ConfigurePersistedGrantContext(_operationalStoreOptions.Value);
             base.OnModelCreating(modelBuilder);
         }
@@ -41,6 +42,7 @@ namespace Rental_House_Backend.Data
         public DbSet<ElectricBill> ElectricBill { get; set; }
         public DbSet<WaterBill> WaterBill { get; set; }
         public DbSet<OtherFee> OtherFee { get; set; }
+        public DbSet<Account> Account { get; set; }
 
     }
 }
