@@ -63,6 +63,7 @@ namespace Rental_House_Backend.Controllers
 
         // PUT api/<ValuesController>
         [HttpPut]
+        [Route("/api/[Controller]/Edit/{id}")]
         public IActionResult Put(String id,Customer customer)
         {
             return Ok(customerService.UpdateCustomer( id,customer));
