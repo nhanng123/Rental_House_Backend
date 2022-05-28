@@ -2,7 +2,7 @@
 {
     public class OtherFee
     {
-        public int AreaID { get; private set; }
+        public int AreaID { get; set; }
         public int ElectricFee { get; set; }
         public int WaterFee { get; set; }
         public int GarbageFee { get; set; }

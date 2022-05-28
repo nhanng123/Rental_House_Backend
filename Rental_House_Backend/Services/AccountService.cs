@@ -46,13 +46,19 @@ namespace Rental_House_Backend.Services
 
             Account account = new Account();
             account.RoomId = roomId;
-            account.Username = "guestroom" + roomId;
-            account.Password = GetRandomString();
+            
             if(roomId == 0)
             {
+                account.Username = "admin" + (new Random()).Next(100, 200);
+                account.Password = GetRandomString();
                 account.Role = "admin";
             }
-            else { account.Role = "guest"; }
+            else 
+            {
+                account.Username = "guestroom" + roomId;
+                account.Password = GetRandomString();
+                account.Role = "guest"; 
+            }
 
             accountDbContex.Account.Add(account);
             accountDbContex.SaveChanges();
