@@ -16,7 +16,7 @@ namespace Rental_House_Backend.Controllers
             _accountService = accountService;
         }
         // GET: api/<AccountController>
-        [HttpGet]
+        [HttpPost]
         public IActionResult Login(string username, string password)
         {
             return Ok(_accountService.Login(username, password));
