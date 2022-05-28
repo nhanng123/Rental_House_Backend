@@ -4,6 +4,7 @@ namespace Rental_House_Backend.Models
 {
     public class Customer
     {
+        public int Id { get; set; }
         public string Id_Number { get; set; }
         public string Name { get; set; }
         [DataType(DataType.Date)]

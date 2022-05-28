@@ -46,7 +46,7 @@ builder.Services.AddIdentityServer()
             ClientName = "My Custom Client",
             AccessTokenLifetime = 60 * 60 * 24,
               ClientSecrets = { new Secret("511536EF-F270-4058-80CA-1C89C192F69A".Sha256()) },
-            AllowedGrantTypes = new string[]{GrantType.Implicit },
+            AllowedGrantTypes = new string[]{GrantType.Implicit  },
             RequireClientSecret = false,
               AllowedScopes =
             {
@@ -81,6 +81,7 @@ builder.Services.AddIdentityServer()
 
 builder.Services.AddAuthentication()
     .AddIdentityServerJwt();
+    
 builder.Services.Configure<JwtBearerOptions>(
     IdentityServerJwtConstants.IdentityServerJwtBearerScheme,
     options =>
@@ -113,6 +114,7 @@ builder.Services.AddScoped<IRequestRepairService, RequestRepairService>();
 builder.Services.AddScoped<IBookingService, BookingService>();
 builder.Services.AddSingleton<IClientStore, CustomClientStore>();
 builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddScoped<IOtherFeeServicecs, OtherFeeService>();
 
 
 var app = builder.Build();

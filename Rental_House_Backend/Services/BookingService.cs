@@ -14,6 +14,7 @@ namespace Rental_House_Backend.Services
         public bool AddBooking(Booking booking)
         {
             bookingContext.Booking.Add(booking);
+
             bookingContext.SaveChanges();
             return true;
         }
