@@ -470,8 +470,11 @@ namespace Rental_House_Backend.Migrations
 
             modelBuilder.Entity("Rental_House_Backend.Models.Customer", b =>
                 {
-                    b.Property<string>("Id_Number")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Company")
                         .HasColumnType("nvarchar(max)");
@@ -483,6 +486,9 @@ namespace Rental_House_Backend.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Hometown")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Id_Number")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Initial_Address")
@@ -511,7 +517,7 @@ namespace Rental_House_Backend.Migrations
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("Id_Number");
+                    b.HasKey("Id");
 
                     b.ToTable("customers", (string)null);
                 });
@@ -523,6 +529,9 @@ namespace Rental_House_Backend.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("BillId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("Electric_Date")
                         .HasColumnType("datetime2");
@@ -643,6 +652,9 @@ namespace Rental_House_Backend.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("BillId")
+                        .HasColumnType("int");
 
                     b.Property<int>("Old_Number")
                         .HasColumnType("int");

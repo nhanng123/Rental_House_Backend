@@ -10,6 +10,7 @@ namespace Rental_House_Backend.Configuration
         {
             builder.ToTable("electricbills");
             builder.HasKey(x => x.Id);
+            builder.Property(x => x.BillId);
             builder.Property(x => x.RoomId);
             builder.Property(x => x.Electric_Number);
             builder.Property(x => x.Electric_Date);

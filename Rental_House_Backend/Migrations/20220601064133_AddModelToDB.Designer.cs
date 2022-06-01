@@ -12,14 +12,14 @@ using Rental_House_Backend.Data;
 namespace Rental_House_Backend.Migrations
 {
     [DbContext(typeof(RentalHouseDbContext))]
-    [Migration("20220514064458_RemoveAccountModel")]
-    partial class RemoveAccountModel
+    [Migration("20220601064133_AddModelToDB")]
+    partial class AddModelToDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.4")
+                .HasAnnotation("ProductVersion", "6.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -302,6 +302,27 @@ namespace Rental_House_Backend.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Rental_House_Backend.Models.Account", b =>
+                {
+                    b.Property<string>("Username")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RoomId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Username");
+
+                    b.ToTable("accounts", (string)null);
+                });
+
             modelBuilder.Entity("Rental_House_Backend.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
@@ -343,6 +364,9 @@ namespace Rental_House_Backend.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<int>("Room")
+                        .HasColumnType("int");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
@@ -460,6 +484,12 @@ namespace Rental_House_Backend.Migrations
                     b.Property<DateTime>("DoB")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Hometown")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Id_Number")
                         .HasColumnType("nvarchar(max)");
 
@@ -486,6 +516,9 @@ namespace Rental_House_Backend.Migrations
                     b.Property<int>("Room")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("Id");
 
                     b.ToTable("customers", (string)null);
@@ -499,13 +532,25 @@ namespace Rental_House_Backend.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int>("BillId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("Electric_Date")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("Electric_Number")
                         .HasColumnType("int");
 
+                    b.Property<int>("Electric_Price")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Old_Number")
+                        .HasColumnType("int");
+
                     b.Property<int>("RoomId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Total")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -520,6 +565,9 @@ namespace Rental_House_Backend.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AreaID"), 1L, 1);
+
+                    b.Property<int>("BonusPeopleFee")
+                        .HasColumnType("int");
 
                     b.Property<int>("ElectricFee")
                         .HasColumnType("int");
@@ -571,6 +619,9 @@ namespace Rental_House_Backend.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
@@ -604,7 +655,19 @@ namespace Rental_House_Backend.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int>("BillId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Old_Number")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Price")
+                        .HasColumnType("int");
+
                     b.Property<int>("RoomId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Total")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("Water_Date")

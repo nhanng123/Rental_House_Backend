@@ -13,7 +13,7 @@ namespace Rental_House_Backend.Services
         }
         public bool AddBill(int roomId, int electric_num, int water_num)
         {
-            var otherfee = billDbContext.OtherFee.Find(3);
+            var otherfee = billDbContext.OtherFee.Find(1);
             var room = billDbContext.Room.Find(roomId);
             DateTime today = DateTime.Today;
             var pre_elec_num = billDbContext.ElectricBill.OrderByDescending(x => x.Electric_Date).FirstOrDefault(x => x.RoomId == roomId);
@@ -33,8 +33,12 @@ namespace Rental_House_Backend.Services
             bill.Total = bill.Garbage_Fee + bill.Wifi_Fee + bill.Water_Fee + bill.Electric_Fee + bill.Price;
             bill.Is_Pay = false;
             billDbContext.Bill.Add(bill);
+            billDbContext.SaveChanges();
 
-            ElectricBill electricBill = new ElectricBill();
+            var bill_ = billDbContext.Bill.OrderByDescending(x => x.Time).FirstOrDefault(x => x.Room == roomId);
+
+            ElectricBill electricBill = new ElectricBill() { BillId = bill_.Id };
+          
             electricBill.RoomId = roomId;
             electricBill.Old_Number = (pre_elec_num != null ? pre_elec_num.Electric_Number : 0);
             electricBill.Electric_Number = electric_num;
@@ -43,7 +47,8 @@ namespace Rental_House_Backend.Services
             electricBill.Electric_Date = today;
             billDbContext.ElectricBill.Add(electricBill);
 
-            WaterBill waterBill = new WaterBill();
+            WaterBill waterBill = new WaterBill() { BillId = bill_.Id };
+           
             waterBill.RoomId = roomId;
             waterBill.Old_Number = (pre_water_num != null ? pre_water_num.Water_Number : 0);
             waterBill.Water_Number = water_num;
@@ -66,8 +71,8 @@ namespace Rental_House_Backend.Services
         public bool RemoveBill(int id)
         {
             Bill bill = GetBill(id);
-            var pre_elec_num = billDbContext.ElectricBill.OrderByDescending(x => x.Electric_Date).FirstOrDefault(x => x.Electric_Date == bill.Time);
-            var pre_water_num = billDbContext.WaterBill.OrderByDescending(x => x.Water_Date).FirstOrDefault(x => x.Water_Date == bill.Time);
+            var pre_elec_num = billDbContext.ElectricBill.FirstOrDefault(x => x.BillId == id);
+            var pre_water_num = billDbContext.WaterBill.FirstOrDefault(x => x.BillId == id);
 
 
             billDbContext.Bill.Remove(bill);
