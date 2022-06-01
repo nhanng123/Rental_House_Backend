@@ -112,12 +112,11 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseCors("default");
+app.UseStaticFiles();
 app.UseIdentityServer();
 
 
 app.UseAuthorization();
-
-
 app.MapControllers();
 app.MapRazorPages();
 
