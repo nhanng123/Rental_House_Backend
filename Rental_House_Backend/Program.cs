@@ -29,7 +29,13 @@ builder.Services.AddDbContext<RentalHouseDbContext>(options =>
     options.UseSqlServer(connectionString));
 
 
-builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
+builder.Services.AddDefaultIdentity<ApplicationUser>(
+    options =>
+    {
+        options.SignIn.RequireConfirmedAccount = false;
+        options.SignIn.RequireConfirmedEmail = false;
+        options.SignIn.RequireConfirmedPhoneNumber = false;
+    })
     .AddEntityFrameworkStores<RentalHouseDbContext>();
 
 builder.Services.AddIdentityServer()
@@ -53,8 +59,7 @@ builder.Services.AddIdentityServer()
             {
                 "myAPIs"
             }
-        }}) ;
-
+        }});
 
 builder.Services.AddAuthentication("Bearer")
     .AddJwtBearer("Bearer", options =>

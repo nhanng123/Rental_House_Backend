@@ -9,6 +9,6 @@ namespace Rental_House_Backend.Services
         RequestRepair GetRequestRepair(int id);
         Boolean AddRequestRepair(RequestRepair requestRepair);
         Boolean RemoveRequestRepair(int id);
-        Boolean ChangeState(int id,String state);
+        Boolean ChangeState(int id);
     }
 }

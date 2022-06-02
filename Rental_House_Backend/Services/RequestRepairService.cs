@@ -18,7 +18,7 @@ namespace Rental_House_Backend.Services
             return true;
         }
 
-        public bool ChangeState(int id, string state)
+        public bool ChangeState(int id)
         {
             var request = GetRequestRepair(id);
             if (request == null)
@@ -26,7 +26,14 @@ namespace Rental_House_Backend.Services
                 return false;
             }
 
-            request.Status = state;
+           if(request.Status.Equals("Đang Đợi"))
+            {
+                request.Status = "Đang Sửa Chữa";
+            }
+           if(request.Status.Equals("Đang Sửa Chữa"))
+            {
+                request.Status = "Đã Hoàn Thành";
+            }
             repairDbContext.RequestRepair.Update(request);
             repairDbContext.SaveChanges();
             return true;
