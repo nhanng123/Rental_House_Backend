@@ -13,7 +13,7 @@ namespace Rental_House_Backend.Services
         }
         public bool AddBill(int roomId, int electric_num, int water_num)
         {
-            var otherfee = billDbContext.OtherFee.Find(3);
+            var otherfee = billDbContext.OtherFee.Find(1);
             var room = billDbContext.Room.Find(roomId);
             DateTime today = DateTime.Today;
             var pre_elec_num = billDbContext.ElectricBill.OrderByDescending(x => x.Electric_Date).FirstOrDefault(x => x.RoomId == roomId);

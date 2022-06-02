@@ -15,7 +15,7 @@ namespace Rental_House_Backend.Services
         {
             bookingContext.Booking.Add(booking);
             Room room = bookingContext.Room.FirstOrDefault(x => x.Id == booking.Room);
-            room.State = "Đã đặt";
+            room.State = "Đã Đặt";
             bookingContext.Room.Update(room);
             bookingContext.SaveChanges();
             return true;

@@ -14,7 +14,7 @@ namespace Rental_House_Backend.Services
         public bool AddCustomer(Customer customer)
         {
             var room = _customerDbContext.Room.Find(customer.Room);
-            var otherfee = _customerDbContext.OtherFee.Find(3);
+            var otherfee = _customerDbContext.OtherFee.Find(1);
             room.Number_Of_People += 1;
 
             if (room.Number_Of_People == 1)
@@ -36,10 +36,10 @@ namespace Rental_House_Backend.Services
             return true;
         }
 
-        public bool ChangeRoom(string customerId, int roomId)
+        public bool ChangeRoom(int customerId, int roomId)
         {
             Customer customer = _customerDbContext.Customer.Find(customerId);
-            var otherfee = _customerDbContext.OtherFee.Find(3);
+            var otherfee = _customerDbContext.OtherFee.Find(1);
             if (customer == null)
             {
                 return false;
@@ -112,7 +112,7 @@ namespace Rental_House_Backend.Services
             return _customerDbContext.Customer.Where(x => x.Room != 0).ToList();
         }
 
-        public Customer GetCustomer(string customerId)
+        public Customer GetCustomer(int customerId)
         {
             return _customerDbContext.Customer.Find(customerId);
         }
@@ -127,7 +127,7 @@ namespace Rental_House_Backend.Services
             return _customerDbContext.Customer.Where(x => x.Room==roomId).ToList();
         }
 
-        public bool RemoveCustomer(string customerId)
+        public bool RemoveCustomer(int customerId)
         {
 
             Customer cus = _customerDbContext.Customer.Find(customerId);
@@ -156,9 +156,9 @@ namespace Rental_House_Backend.Services
             return true;
         }
 
-        public bool UpdateCustomer(String id,Customer customer)
+        public bool UpdateCustomer(int id,Customer customer)
         {
-            if(id == customer.Id_Number)
+            if(id == customer.Id)
             {
                 _customerDbContext.Customer.Update(customer);
             }
