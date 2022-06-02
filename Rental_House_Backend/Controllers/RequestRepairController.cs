@@ -46,9 +46,9 @@ namespace Rental_House_Backend.Controllers
 
         // PUT api/<RequestRepairController>/5
         [HttpPut("{id}")]
-        public IActionResult Put(int id, string state)
+        public IActionResult Put(int id)
         {
-            return Ok(requestRepairService.ChangeState(id,state));
+            return Ok(requestRepairService.ChangeState(id));
         }
 
         // DELETE api/<RequestRepairController>/5

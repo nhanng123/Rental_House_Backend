@@ -13,6 +13,9 @@ using System.Security.Claims;
 using System.Text.Json;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
+using Duende.IdentityServer.EntityFramework.Options;
+using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,6 +39,7 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(
         options.SignIn.RequireConfirmedEmail = false;
         options.SignIn.RequireConfirmedPhoneNumber = false;
     })
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<RentalHouseDbContext>();
 
 builder.Services.AddIdentityServer()
@@ -107,6 +111,21 @@ builder.Services.AddScoped<IOtherFeeServicecs, OtherFeeService>();
 
 
 var app = builder.Build();
+using (var scope = app.Services.CreateScope())
+{
+
+    using (var dbContext = new RentalHouseDbContext(
+    scope.ServiceProvider.GetRequiredService<DbContextOptions<RentalHouseDbContext>>(),
+    scope.ServiceProvider.GetRequiredService<IOptions<OperationalStoreOptions>>()))
+    {
+        var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+        if (!roleManager.Roles.Any())
+        {
+            await roleManager.CreateAsync(new IdentityRole("admin"));
+            await roleManager.CreateAsync(new IdentityRole("user"));
+        }
+    }
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
