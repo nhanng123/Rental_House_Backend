@@ -12,6 +12,7 @@ using Rental_House_Backend.Services;
 using System.Security.Claims;
 using System.Text.Json;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -46,42 +47,24 @@ builder.Services.AddIdentityServer()
             ClientName = "My Custom Client",
             AccessTokenLifetime = 60 * 60 * 24,
               ClientSecrets = { new Secret("511536EF-F270-4058-80CA-1C89C192F69A".Sha256()) },
-            AllowedGrantTypes = new string[]{GrantType.Implicit  },
+            AllowedGrantTypes = new string[]{GrantType.Implicit },
             RequireClientSecret = false,
               AllowedScopes =
             {
                 "myAPIs"
             }
-        }})
-     .AddTestUsers(new List<Duende.IdentityServer.Test.TestUser> { new Duende.IdentityServer.Test.TestUser {
-                        SubjectId = "1",
-                        Username = "alice",
-                        Password = "alice",
-                        Claims =
-                        {
-                            new Claim(JwtClaimTypes.Name, "Alice Smith"),
-                            new Claim(JwtClaimTypes.GivenName, "Alice"),
-                            new Claim(JwtClaimTypes.FamilyName, "Smith"),
-                            new Claim(JwtClaimTypes.Email, "AliceSmith@email.com"),
-                            new Claim(JwtClaimTypes.EmailVerified, "true", ClaimValueTypes.Boolean),
-                            new Claim(JwtClaimTypes.WebSite, "http://alice.com"),
-                            new Claim(JwtClaimTypes.Address, JsonSerializer.Serialize(new
-                {
-                    street_address = "One Hacker Way",
-                    locality = "Heidelberg",
-                    postal_code = 69118,
-                    country = "Germany"
-                }), IdentityServerConstants.ClaimValueTypes.Json)
-                        }
-                    },})
-     ;
+        }}) ;
 
 
-
-
-builder.Services.AddAuthentication()
-    .AddIdentityServerJwt();
-    
+builder.Services.AddAuthentication("Bearer")
+    .AddJwtBearer("Bearer", options =>
+    {
+        options.Authority = "https://localhost:7176";
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateAudience = false
+        };
+    });
 builder.Services.Configure<JwtBearerOptions>(
     IdentityServerJwtConstants.IdentityServerJwtBearerScheme,
     options =>
@@ -107,6 +90,7 @@ builder.Services.AddCors(options =>
 });
 
 
+
 builder.Services.AddScoped<IRoomService, RoomService>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<IBillService, BillService>();
@@ -128,12 +112,11 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseCors("default");
+app.UseStaticFiles();
 app.UseIdentityServer();
 
 
 app.UseAuthorization();
-
-
 app.MapControllers();
 app.MapRazorPages();
 

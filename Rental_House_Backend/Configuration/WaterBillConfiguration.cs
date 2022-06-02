@@ -10,6 +10,7 @@ namespace Rental_House_Backend.Configuration
         {
             builder.ToTable("waterbills");
             builder.HasKey(x => x.Id);
+            builder.Property(x => x.BillId);
             builder.Property(x => x.RoomId);
             builder.Property(x => x.Water_Number);
             builder.Property(x => x.Water_Date);

@@ -530,6 +530,9 @@ namespace Rental_House_Backend.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int>("BillId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("Electric_Date")
                         .HasColumnType("datetime2");
 
@@ -649,6 +652,9 @@ namespace Rental_House_Backend.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("BillId")
+                        .HasColumnType("int");
 
                     b.Property<int>("Old_Number")
                         .HasColumnType("int");

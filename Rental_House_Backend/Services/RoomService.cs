@@ -16,20 +16,6 @@ namespace Rental_House_Backend.Services
             _roomDbContext.Room.Add(room);
             _roomDbContext.SaveChanges();
 
-            var newRoom = _roomDbContext.Room.OrderByDescending(r => r.Date).FirstOrDefault();
-
-            ElectricBill electricBill = new ElectricBill();
-            electricBill.RoomId = newRoom.Id;
-            electricBill.Electric_Date = DateTime.Today;
-            _roomDbContext.ElectricBill.Add(electricBill);
-
-            WaterBill waterBill = new WaterBill();
-            waterBill.RoomId = newRoom.Id;
-            waterBill.Water_Date = DateTime.Today;
-            _roomDbContext.WaterBill.Add(waterBill);
-
-            _roomDbContext.SaveChanges();
-
             return true;
         }
 
