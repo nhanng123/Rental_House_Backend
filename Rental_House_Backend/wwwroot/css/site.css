@@ -7,7 +7,7 @@ for details on configuring this project to bundle and minify static web assets. 
     color: white;
 }
 .background-radial-gradient {
-    padding-bottom:46px;
+    padding-bottom:40px;
     background-color: hsl(218, 41%, 15%);
     background-image: radial-gradient(650px circle at 0% 0%, hsl(218, 41%, 35%) 15%, hsl(218, 41%, 30%) 35%, hsl(218, 41%, 20%) 75%, hsl(218, 41%, 19%) 80%, transparent 100%), radial-gradient(1250px circle at 100% 100%, hsl(218, 41%, 45%) 15%, hsl(218, 41%, 30%) 35%, hsl(218, 41%, 20%) 75%, hsl(218, 41%, 19%) 80%, transparent 100%);
 }
@@ -105,7 +105,7 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+  margin-bottom: 70px;
 }
 .footer {
   position: absolute;
@@ -114,4 +114,7 @@ body {
   overflow: scroll;
   white-space: nowrap;
   line-height: 60px;
+}
+h2{
+    margin-bottom:20px;
 }
