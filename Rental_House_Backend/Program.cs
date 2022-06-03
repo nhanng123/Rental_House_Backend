@@ -16,6 +16,7 @@ using Microsoft.IdentityModel.Tokens;
 using Duende.IdentityServer.EntityFramework.Options;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 

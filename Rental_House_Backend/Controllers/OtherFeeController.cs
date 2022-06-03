@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Rental_House_Backend.Models;
 using Rental_House_Backend.Services;
 
@@ -9,6 +10,7 @@ namespace Rental_House_Backend.Controllers
 
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "ADMIN")]
     public class OtherFeeController : ControllerBase
     {
         private readonly IOtherFeeServicecs otherFeeServicecs;

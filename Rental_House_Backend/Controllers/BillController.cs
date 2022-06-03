@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Rental_House_Backend.Services;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -7,6 +8,7 @@ namespace Rental_House_Backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class BillController : ControllerBase
     {
         private readonly IBillService billService;
@@ -24,7 +26,7 @@ namespace Rental_House_Backend.Controllers
         }
 
         [HttpGet]
-        [Route("api/[Controller]/GetByRoom/{id}")]
+        [Route("/api/[Controller]/GetByRoom/{id}")]
         public IActionResult GetByRoom(int id)
         {
             return Ok(billService.GetRoomBills(id));
@@ -38,14 +40,14 @@ namespace Rental_House_Backend.Controllers
         }
 
         [HttpGet]
-        [Route("api/[Controller]/room+electric/{id}")]
+        [Route("/api/[Controller]/room+electric/{id}")]
         public IActionResult GetElectricBills(int id)
         {
             return Ok(billService.GetRoomElectricBills(id));
         }
 
         [HttpGet]
-        [Route("api/[Controller]/room+water/{id}")]
+        [Route("/api/[Controller]/room+water/{id}")]
         public IActionResult GetWaterBills(int id)
         {
             return Ok(billService.GetRoomWaterBills(id));
@@ -60,6 +62,7 @@ namespace Rental_House_Backend.Controllers
 
         // PUT api/<BillController>/5
         [HttpPut("{id}")]
+        [Authorize(Roles = "ADMIN")]
         public IActionResult Put(int id)
         {
             return Ok(billService.Pay(id));
@@ -67,6 +70,7 @@ namespace Rental_House_Backend.Controllers
 
         // DELETE api/<BillController>/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = "ADMIN")]
         public IActionResult Delete(int id)
         {
             return Ok(billService.RemoveBill(id));

@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Rental_House_Backend.Models;
 using Rental_House_Backend.Services;
 
@@ -6,15 +8,19 @@ using Rental_House_Backend.Services;
 
 namespace Rental_House_Backend.Controllers
 {
+     [Authorize(Roles="ADMIN")]
     [Route("api/[controller]")]
     [ApiController]
+    
     public class RoomController : ControllerBase
     {
         private readonly IRoomService _roomService;
+        private readonly UserManager<ApplicationUser> userManager;
 
-        public RoomController(IRoomService roomService)
+        public RoomController(IRoomService roomService, UserManager<ApplicationUser> userManager)
         {
             _roomService = roomService;
+            this.userManager = userManager;
         }
 
         // GET: api/<RoomController>
@@ -25,9 +31,11 @@ namespace Rental_House_Backend.Controllers
         }
 
         // GET api/<RoomController>/5
-        [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        [HttpGet]
+        [Route("/api/[Controller]/GetRoomById")]
+        public async Task<IActionResult> GetRoomByID(int id)
         {
+            
             return Ok(_roomService.GetOneRoom(id));
         }
 

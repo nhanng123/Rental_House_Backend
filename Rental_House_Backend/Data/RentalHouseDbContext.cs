@@ -30,7 +30,6 @@ namespace Rental_House_Backend.Data
             modelBuilder.ApplyConfiguration(new WaterBillConfiguration());
             modelBuilder.ApplyConfiguration(new OtherFeeConfiguration());
             modelBuilder.ApplyConfiguration(new AccountConfiguration());
-            modelBuilder.ConfigurePersistedGrantContext(_operationalStoreOptions.Value);
             base.OnModelCreating(modelBuilder);
         }
 

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Rental_House_Backend.Models;
 using Rental_House_Backend.Services;
@@ -9,39 +10,62 @@ namespace Rental_House_Backend.Controllers
 {
     [Authorize]
     [Route("api/[controller]")]
-    [ApiController]
     public class CustomerController : ControllerBase
     {
         private readonly ICustomerService customerService;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public CustomerController(ICustomerService customerService)
+        public CustomerController(ICustomerService customerService, UserManager<ApplicationUser> userManager)
         {
             this.customerService = customerService;
+            this._userManager = userManager;
         }
 
         // GET: api/<ValuesController>
         [HttpGet]
-        public IActionResult Get()
+       
+        public async Task<IActionResult> Get()
         {
+            var id = User.Claims.FirstOrDefault(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value;
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null || ! await _userManager.IsInRoleAsync(user,"admin"))
+            {
+                return BadRequest();
+            }
+
             return Ok(customerService.GetAllCustomers());
         }
 
         [HttpGet]
-        [Route("api/[Controller]/current+customers")]
-        public IActionResult GetCurrentCustomers()
+        [Route("/api/[Controller]/current+customers")]
+        
+        public async Task<IActionResult> GetCurrentCustomers()
         {
+            var id = User.Claims.FirstOrDefault(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value;
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null || !await _userManager.IsInRoleAsync(user, "admin"))
+            {
+                return BadRequest();
+            }
             return Ok(customerService.GetCurrentCustomers());
         }
 
         [HttpGet]
-        [Route("api/[Controller]/old+customers")]
-        public IActionResult GetOldCustomers()
+        [Route("/api/[Controller]/old+customers")]
+       
+        public async Task<IActionResult> GetOldCustomers()
         {
+            var id = User.Claims.FirstOrDefault(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value;
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null || !await _userManager.IsInRoleAsync(user, "admin"))
+            {
+                return BadRequest();
+            }
             return Ok(customerService.GetOldCustomers());
         }
 
         [HttpGet]
-        [Route("api/[Controller]/GetByRoom/{id}")]
+        [Route("/api/[Controller]/GetByRoom/{id}")]
         public IActionResult GetRoomCustomer(int id)
         {
             return Ok(customerService.GetRoomCustomers(id));
@@ -56,8 +80,15 @@ namespace Rental_House_Backend.Controllers
 
         // POST api/<ValuesController>
         [HttpPost]
-        public IActionResult Post(Customer customer)
+        
+        public async Task<IActionResult> Post(Customer customer)
         {
+            var id = User.Claims.FirstOrDefault(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value;
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null || !await _userManager.IsInRoleAsync(user, "admin"))
+            {
+                return BadRequest();
+            }
             return Ok(customerService.AddCustomer(customer));
         }
 
@@ -70,16 +101,30 @@ namespace Rental_House_Backend.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult changeRoom(int id, int roomId)
+       
+        public async Task<IActionResult> changeRoom(int id, int roomId)
         {
+            var id = User.Claims.FirstOrDefault(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value;
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null || !await _userManager.IsInRoleAsync(user, "admin"))
+            {
+                return BadRequest();
+            }
             return Ok(customerService.ChangeRoom(id, roomId));
         }
 
         // DELETE api/<ValuesController>/5
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+       
+        public async Task<IActionResult> Delete(int roomId)
         {
-            return Ok(customerService.RemoveCustomer(id));
+            var id = User.Claims.FirstOrDefault(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value;
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null || !await _userManager.IsInRoleAsync(user, "admin"))
+            {
+                return BadRequest();
+            }
+            return Ok(customerService.RemoveCustomer(roomId));
         }
     }
 }

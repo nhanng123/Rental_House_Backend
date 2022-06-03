@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Rental_House_Backend.Models;
 using Rental_House_Backend.Services;
 
@@ -8,6 +9,7 @@ namespace Rental_House_Backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class RequestRepairController : ControllerBase
     {
         private readonly IRequestRepairService requestRepairService;
@@ -18,13 +20,14 @@ namespace Rental_House_Backend.Controllers
         }
         // GET: api/<RequestRepairController>
         [HttpGet]
+         [Authorize(Roles="ADMIN")]
         public IActionResult Get()
         {
             return Ok(requestRepairService.GetAllRepairs());
         }
 
         [HttpGet]
-        [Route("api/[controller]/RoomRepairs/{id}")]
+        [Route("/api/[controller]/RoomRepairs/{id}")]
         public IActionResult GetRoomRepairs(int id)
         {
             return Ok(requestRepairService.GetRoomRepairs(id));
@@ -46,6 +49,7 @@ namespace Rental_House_Backend.Controllers
 
         // PUT api/<RequestRepairController>/5
         [HttpPut("{id}")]
+         [Authorize(Roles="ADMIN")]
         public IActionResult Put(int id)
         {
             return Ok(requestRepairService.ChangeState(id));
@@ -53,6 +57,7 @@ namespace Rental_House_Backend.Controllers
 
         // DELETE api/<RequestRepairController>/5
         [HttpDelete("{id}")]
+         [Authorize(Roles="ADMIN")]
         public IActionResult Delete(int id)
         {
             return Ok(requestRepairService.RemoveRequestRepair(id));

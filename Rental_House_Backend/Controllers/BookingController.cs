@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Rental_House_Backend.Models;
 using Rental_House_Backend.Services;
 
@@ -24,6 +25,7 @@ namespace Rental_House_Backend.Controllers
 
         // GET api/<BookingController>/5
         [HttpGet("{id}")]
+        [Authorize(Roles = "ADMIN")]
         public IActionResult Get(int id)
         {
             return Ok(_bookingService.GetBooking(id));
@@ -38,6 +40,7 @@ namespace Rental_House_Backend.Controllers
 
         // PUT api/<BookingController>/5
         [HttpPut("{id}")]
+        [Authorize(Roles = "ADMIN")]
         public IActionResult Put(int id)
         {
             return Ok(_bookingService.ChangeState(id));
@@ -45,6 +48,7 @@ namespace Rental_House_Backend.Controllers
 
         // DELETE api/<BookingController>/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = "ADMIN")]
         public IActionResult Delete(int id)
         {
             return Ok(_bookingService.RemoveBooking(id));
