@@ -25,7 +25,7 @@ namespace Rental_House_Backend.Controllers
 
         // GET api/<BookingController>/5
         [HttpGet("{id}")]
-        [Authorize(Roles = "ADMIN")]
+        [Authorize(Roles ="admin")]
         public IActionResult Get(int id)
         {
             return Ok(_bookingService.GetBooking(id));
@@ -40,7 +40,7 @@ namespace Rental_House_Backend.Controllers
 
         // PUT api/<BookingController>/5
         [HttpPut("{id}")]
-        [Authorize(Roles = "ADMIN")]
+        [Authorize(Roles ="admin")]
         public IActionResult Put(int id)
         {
             return Ok(_bookingService.ChangeState(id));
@@ -48,7 +48,7 @@ namespace Rental_House_Backend.Controllers
 
         // DELETE api/<BookingController>/5
         [HttpDelete("{id}")]
-        [Authorize(Roles = "ADMIN")]
+        [Authorize(Roles ="admin")]
         public IActionResult Delete(int id)
         {
             return Ok(_bookingService.RemoveBooking(id));

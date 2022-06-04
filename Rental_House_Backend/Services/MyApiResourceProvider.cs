@@ -8,7 +8,7 @@ namespace Rental_House_Backend.Services
         public static IEnumerable<ApiScope> ApiScopes =>
          new List<ApiScope>
          {
-            new ApiScope("myAPIs", "My API")
+            new ApiScope("myAPIs", "My API", new List<String>(){JwtClaimTypes.Role,JwtClaimTypes.Name})
          };
         public static IEnumerable<ApiResource> ApiResources =>
        new List<ApiResource>
@@ -23,6 +23,7 @@ namespace Rental_House_Backend.Services
             return new List<IdentityResource>
     {
         new IdentityResources.OpenId(),
+        new IdentityResources.Email(),
         new IdentityResources.Profile() // <-- usefull
     };
         }
