@@ -10,7 +10,7 @@ namespace Rental_House_Backend.Controllers
 
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "ADMIN")]
+    [Authorize(Roles = "admin")]
     public class OtherFeeController : ControllerBase
     {
         private readonly IOtherFeeServicecs otherFeeServicecs;

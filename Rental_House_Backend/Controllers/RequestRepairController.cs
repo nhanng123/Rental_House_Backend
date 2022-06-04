@@ -20,7 +20,7 @@ namespace Rental_House_Backend.Controllers
         }
         // GET: api/<RequestRepairController>
         [HttpGet]
-         [Authorize(Roles="ADMIN")]
+         [Authorize(Roles ="admin")]
         public IActionResult Get()
         {
             return Ok(requestRepairService.GetAllRepairs());
@@ -49,7 +49,7 @@ namespace Rental_House_Backend.Controllers
 
         // PUT api/<RequestRepairController>/5
         [HttpPut("{id}")]
-         [Authorize(Roles="ADMIN")]
+         [Authorize(Roles ="admin")]
         public IActionResult Put(int id)
         {
             return Ok(requestRepairService.ChangeState(id));
@@ -57,7 +57,7 @@ namespace Rental_House_Backend.Controllers
 
         // DELETE api/<RequestRepairController>/5
         [HttpDelete("{id}")]
-         [Authorize(Roles="ADMIN")]
+         [Authorize(Roles ="admin")]
         public IActionResult Delete(int id)
         {
             return Ok(requestRepairService.RemoveRequestRepair(id));

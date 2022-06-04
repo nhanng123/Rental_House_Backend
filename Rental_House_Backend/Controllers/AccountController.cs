@@ -25,6 +25,7 @@ namespace Rental_House_Backend.Controllers
         
 
         [HttpPost]
+        [Authorize(Roles = "user,admin")]
         public async Task<IActionResult> ChangePassword(string username, string password)
         {
 
@@ -47,17 +48,9 @@ namespace Rental_House_Backend.Controllers
 
 
         [HttpPost]
-        
+        [Authorize(Roles ="admin")]
         public async Task<IActionResult> ResetPassword(string username,string password)
         {
-
-            var id = User.Claims.FirstOrDefault(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value;
-            var admin = await _userManager.FindByIdAsync(id);
-            if (admin == null || !await _userManager.IsInRoleAsync(admin, "admin"))
-            {
-                return BadRequest();
-            }
-
             var user = await _userManager.FindByNameAsync(username);
             if (user == null)
             {
@@ -77,16 +70,9 @@ namespace Rental_House_Backend.Controllers
         }
 
         [HttpPost]
-        
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Register(Account model)
         {
-            var id = User.Claims.FirstOrDefault(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value;
-            var admin = await _userManager.FindByIdAsync(id);
-            if (admin == null || !await _userManager.IsInRoleAsync(admin, "admin"))
-            {
-                return BadRequest();
-            }
-
             if (ModelState.IsValid)
             {
                var user = new ApplicationUser { UserName = model.Username, Email = null, Room = model.RoomId };

@@ -23,44 +23,25 @@ namespace Rental_House_Backend.Controllers
 
         // GET: api/<ValuesController>
         [HttpGet]
-       
+       [Authorize(Roles ="admin")]
         public async Task<IActionResult> Get()
         {
-            var id = User.Claims.FirstOrDefault(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value;
-            var user = await _userManager.FindByIdAsync(id);
-            if (user == null || ! await _userManager.IsInRoleAsync(user,"admin"))
-            {
-                return BadRequest();
-            }
-
             return Ok(customerService.GetAllCustomers());
         }
 
         [HttpGet]
         [Route("/api/[Controller]/current+customers")]
-        
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> GetCurrentCustomers()
         {
-            var id = User.Claims.FirstOrDefault(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value;
-            var user = await _userManager.FindByIdAsync(id);
-            if (user == null || !await _userManager.IsInRoleAsync(user, "admin"))
-            {
-                return BadRequest();
-            }
             return Ok(customerService.GetCurrentCustomers());
         }
 
         [HttpGet]
         [Route("/api/[Controller]/old+customers")]
-       
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> GetOldCustomers()
         {
-            var id = User.Claims.FirstOrDefault(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value;
-            var user = await _userManager.FindByIdAsync(id);
-            if (user == null || !await _userManager.IsInRoleAsync(user, "admin"))
-            {
-                return BadRequest();
-            }
             return Ok(customerService.GetOldCustomers());
         }
 
@@ -80,15 +61,9 @@ namespace Rental_House_Backend.Controllers
 
         // POST api/<ValuesController>
         [HttpPost]
-        
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Post(Customer customer)
         {
-            var id = User.Claims.FirstOrDefault(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value;
-            var user = await _userManager.FindByIdAsync(id);
-            if (user == null || !await _userManager.IsInRoleAsync(user, "admin"))
-            {
-                return BadRequest();
-            }
             return Ok(customerService.AddCustomer(customer));
         }
 
@@ -101,29 +76,17 @@ namespace Rental_House_Backend.Controllers
         }
 
         [HttpPut("{id}")]
-       
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> changeRoom(int id, int roomId)
         {
-            var id = User.Claims.FirstOrDefault(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value;
-            var user = await _userManager.FindByIdAsync(id);
-            if (user == null || !await _userManager.IsInRoleAsync(user, "admin"))
-            {
-                return BadRequest();
-            }
             return Ok(customerService.ChangeRoom(id, roomId));
         }
 
         // DELETE api/<ValuesController>/5
         [HttpDelete("{id}")]
-       
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Delete(int roomId)
         {
-            var id = User.Claims.FirstOrDefault(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value;
-            var user = await _userManager.FindByIdAsync(id);
-            if (user == null || !await _userManager.IsInRoleAsync(user, "admin"))
-            {
-                return BadRequest();
-            }
             return Ok(customerService.RemoveCustomer(roomId));
         }
     }

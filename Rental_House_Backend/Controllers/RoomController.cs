@@ -8,7 +8,7 @@ using Rental_House_Backend.Services;
 
 namespace Rental_House_Backend.Controllers
 {
-     [Authorize(Roles="ADMIN")]
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     
@@ -25,6 +25,7 @@ namespace Rental_House_Backend.Controllers
 
         // GET: api/<RoomController>
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult Get()
         {
             return Ok(_roomService.GetRoom());
@@ -32,7 +33,8 @@ namespace Rental_House_Backend.Controllers
 
         // GET api/<RoomController>/5
         [HttpGet]
-        [Route("/api/[Controller]/GetRoomById")]
+        [Route("/api/[Controller]/GetRoomById/{id}")]
+        [Authorize(Roles = "user,admin")]
         public async Task<IActionResult> GetRoomByID(int id)
         {
             
@@ -41,6 +43,7 @@ namespace Rental_House_Backend.Controllers
 
         // POST api/<RoomController>
         [HttpPost]
+        [Authorize(Roles = "admin")]
         public IActionResult Post(Room room)
         {
             return Ok(_roomService.AddRoom(room));
@@ -48,6 +51,7 @@ namespace Rental_House_Backend.Controllers
 
         // PUT api/<RoomController>/5
         [HttpPut]
+        [Authorize(Roles = "admin")]
         public IActionResult UpdateRoom(Room room)
         {
             
@@ -56,6 +60,7 @@ namespace Rental_House_Backend.Controllers
 
         // DELETE api/<RoomController>/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = "admin")]
         public IActionResult Delete(int id)
         {
             return Ok(_roomService.RemoveRoom(id));

@@ -60,13 +60,18 @@ builder.Services.AddIdentityServer()
               ClientSecrets = { new Secret("511536EF-F270-4058-80CA-1C89C192F69A".Sha256()) },
             AllowedGrantTypes = new string[]{GrantType.Implicit },
             RequireClientSecret = false,
-              AllowedScopes =
-            {
-                "myAPIs"
-            }
-        }});
+            AllowedCorsOrigins= new[]
+                {
+                    "http://localhost:3000"
+                },
+            AllowedScopes =
+                        {
+                            "myAPIs"
+                        }
+                    }});
 
 builder.Services.AddAuthentication("Bearer")
+    .AddCookie()
     .AddJwtBearer("Bearer", options =>
     {
         options.Authority = "https://localhost:7176";
@@ -110,6 +115,11 @@ builder.Services.AddSingleton<IClientStore, CustomClientStore>();
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IOtherFeeServicecs, OtherFeeService>();
 
+//builder.Services.AddAuthorization(options =>
+//{
+//    options.AddPolicy("Admin", policy =>
+//        policy.AddRequirements("Role", "admin"));
+//});
 
 var app = builder.Build();
 using (var scope = app.Services.CreateScope())
@@ -139,7 +149,6 @@ app.UseHttpsRedirection();
 app.UseCors("default");
 app.UseStaticFiles();
 app.UseIdentityServer();
-
 
 app.UseAuthorization();
 app.MapControllers();
