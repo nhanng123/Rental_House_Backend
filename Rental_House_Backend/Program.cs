@@ -60,11 +60,15 @@ builder.Services.AddIdentityServer()
               ClientSecrets = { new Secret("511536EF-F270-4058-80CA-1C89C192F69A".Sha256()) },
             AllowedGrantTypes = new string[]{GrantType.Implicit },
             RequireClientSecret = false,
-              AllowedScopes =
-            {
-                "myAPIs"
-            }
-        }});
+            AllowedCorsOrigins= new[]
+                {
+                    "http://localhost:3000"
+                },
+            AllowedScopes =
+                        {
+                            "myAPIs"
+                        }
+                    }});
 
 builder.Services.AddAuthentication("Bearer")
     .AddCookie()
