@@ -10,7 +10,7 @@ namespace Rental_House_Backend.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    [Authorize]
+   
     public class AccountController : ControllerBase
     {
         private readonly IAccountService _accountService;

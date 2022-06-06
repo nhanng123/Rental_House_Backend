@@ -15,12 +15,12 @@ namespace Rental_House_Backend.Controllers
     public class RoomController : ControllerBase
     {
         private readonly IRoomService _roomService;
-        private readonly UserManager<ApplicationUser> userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
 
         public RoomController(IRoomService roomService, UserManager<ApplicationUser> userManager)
         {
             _roomService = roomService;
-            this.userManager = userManager;
+            this._userManager = userManager;
         }
 
         // GET: api/<RoomController>
@@ -33,12 +33,17 @@ namespace Rental_House_Backend.Controllers
 
         // GET api/<RoomController>/5
         [HttpGet]
-        [Route("/api/[Controller]/GetRoomById/{id}")]
+        [Route("/api/[Controller]/GetRoomById")]
         [Authorize(Roles = "user,admin")]
-        public async Task<IActionResult> GetRoomByID(int id)
+        public async Task<IActionResult> GetRoomByID()
         {
-            
-            return Ok(_roomService.GetOneRoom(id));
+            var id = User.Claims.FirstOrDefault(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value;
+            var user = await _userManager.FindByIdAsync(id);
+            if(user.Room == 0)
+            {
+                return Ok(null);
+            }
+            return Ok(_roomService.GetOneRoom(user.Room));
         }
 
         // POST api/<RoomController>
@@ -67,3 +72,4 @@ namespace Rental_House_Backend.Controllers
         }
     }
 }
+`       
