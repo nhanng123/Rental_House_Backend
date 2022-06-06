@@ -33,17 +33,11 @@ namespace Rental_House_Backend.Controllers
 
         // GET api/<RoomController>/5
         [HttpGet]
-        [Route("/api/[Controller]/GetRoomById")]
+        [Route("/api/[Controller]/GetRoomById/{id}")]
         [Authorize(Roles = "user,admin")]
-        public async Task<IActionResult> GetRoomByID()
+        public async Task<IActionResult> GetRoomByID(int id)
         {
-            var id = User.Claims.FirstOrDefault(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value;
-            var user = await _userManager.FindByIdAsync(id);
-            if(user.Room == 0)
-            {
-                return Ok(null);
-            }
-            return Ok(_roomService.GetOneRoom(user.Room));
+            return Ok(_roomService.GetOneRoom(id));
         }
 
         // POST api/<RoomController>
@@ -70,6 +64,17 @@ namespace Rental_House_Backend.Controllers
         {
             return Ok(_roomService.RemoveRoom(id));
         }
+
+        [HttpGet]
+        [Authorize]
+        [Route("/api/[Controller]/GetUserRoomId")]
+        public async Task<IActionResult> GetUserRoomId()
+        {
+            var id = User.Claims.FirstOrDefault(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value;
+            var user = await _userManager.FindByIdAsync(id);
+          
+            return Ok(user.Room);
+            
+        }
     }
 }
-`       
