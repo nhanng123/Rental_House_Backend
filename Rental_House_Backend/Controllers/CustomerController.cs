@@ -10,6 +10,7 @@ namespace Rental_House_Backend.Controllers
 {
     [Authorize]
     [Route("api/[controller]")]
+    [ApiController]
     public class CustomerController : ControllerBase
     {
         private readonly ICustomerService customerService;
@@ -85,9 +86,9 @@ namespace Rental_House_Backend.Controllers
         // DELETE api/<ValuesController>/5
         [HttpDelete("{id}")]
         [Authorize(Roles = "admin")]
-        public async Task<IActionResult> Delete(int roomId)
+        public async Task<IActionResult> Delete(int id)
         {
-            return Ok(customerService.RemoveCustomer(roomId));
+            return Ok(customerService.RemoveCustomer(id));
         }
     }
 }

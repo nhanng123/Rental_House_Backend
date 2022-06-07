@@ -44,7 +44,7 @@ namespace Rental_House_Backend.Services
             {
                 return false;
             }
-            if(customer.Room != 0)
+            if(customer.Room != -1)
             {
                 var room = _customerDbContext.Room.Find(customer.Room);
                 room.Number_Of_People -= 1;
@@ -60,7 +60,7 @@ namespace Rental_House_Backend.Services
                         room.Price -= otherfee.BonusPeopleFee;
                     }
                 }
-                customer.Room = 0;
+                customer.Room = -1;
 
                 _customerDbContext.Room.Update(room);
             }
@@ -70,7 +70,7 @@ namespace Rental_House_Backend.Services
                 customer.EndDate = DateTime.Today;
             }
 
-            if (roomId != 0)
+            if (roomId != -1 && roomId != 0)
             {
                 var toRoom = _customerDbContext.Room.Find(roomId);
                 customer.Room = roomId;
@@ -91,7 +91,7 @@ namespace Rental_House_Backend.Services
                 _customerDbContext.Room.Update(toRoom);
             }
 
-            if (customer.Room == 0)
+            if (customer.Room == -1)
             {
                 customer.EndDate = DateTime.Today;
                
@@ -109,7 +109,7 @@ namespace Rental_House_Backend.Services
 
         public List<Customer> GetCurrentCustomers()
         {
-            return _customerDbContext.Customer.Where(x => x.Room != 0).ToList();
+            return _customerDbContext.Customer.Where(x => x.Room > 0).ToList();
         }
 
         public Customer GetCustomer(int customerId)
@@ -119,7 +119,7 @@ namespace Rental_House_Backend.Services
 
         public List<Customer> GetOldCustomers()
         {
-            return _customerDbContext.Customer.Where(x => x.Room == 0).ToList();
+            return _customerDbContext.Customer.Where(x => x.Room == -1).ToList();
         }
 
         public List<Customer> GetRoomCustomers(int roomId)
@@ -132,7 +132,7 @@ namespace Rental_House_Backend.Services
 
             Customer cus = _customerDbContext.Customer.Find(customerId);
         
-            if(cus.Room != 0)
+            if (cus.Room > 0)
             {
                 var room = _customerDbContext.Room.Find(cus.Room);
                 room.Number_Of_People--;
@@ -150,7 +150,6 @@ namespace Rental_House_Backend.Services
                 }
                 _customerDbContext.Room.Update(room);
             }
-            
             _customerDbContext.Customer.Remove(cus);
             _customerDbContext.SaveChanges();
             return true;
