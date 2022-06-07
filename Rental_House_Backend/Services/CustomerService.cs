@@ -13,7 +13,7 @@ namespace Rental_House_Backend.Services
         }
         public bool AddCustomer(Customer customer)
         {
-            var room = _customerDbContext.Room.Find(customer.Room);
+            var room = _customerDbContext.Room.FirstOrDefault(x => x.Id == customer.Room);
             var otherfee = _customerDbContext.OtherFee.Find(1);
             room.Number_Of_People += 1;
 
@@ -44,7 +44,7 @@ namespace Rental_House_Backend.Services
             {
                 return false;
             }
-            if(customer.Room != 0)
+            if(customer.Room != -1)
             {
                 var room = _customerDbContext.Room.Find(customer.Room);
                 room.Number_Of_People -= 1;
@@ -60,7 +60,7 @@ namespace Rental_House_Backend.Services
                         room.Price -= otherfee.BonusPeopleFee;
                     }
                 }
-                customer.Room = 0;
+                customer.Room = -1;
 
                 _customerDbContext.Room.Update(room);
             }
@@ -70,7 +70,7 @@ namespace Rental_House_Backend.Services
                 customer.EndDate = DateTime.Today;
             }
 
-            if (roomId != 0)
+            if (roomId != -1)
             {
                 var toRoom = _customerDbContext.Room.Find(roomId);
                 customer.Room = roomId;
@@ -132,7 +132,7 @@ namespace Rental_House_Backend.Services
 
             Customer cus = _customerDbContext.Customer.Find(customerId);
         
-            if(cus.Room != 0)
+            if(cus.Room != -1)
             {
                 var room = _customerDbContext.Room.Find(cus.Room);
                 room.Number_Of_People--;
