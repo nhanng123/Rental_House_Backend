@@ -10,6 +10,7 @@ namespace Rental_House_Backend.Controllers
 {
     [Authorize]
     [Route("api/[controller]")]
+    [ApiController]
     public class CustomerController : ControllerBase
     {
         private readonly ICustomerService customerService;

@@ -10,7 +10,7 @@ namespace Rental_House_Backend.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-   
+
     public class AccountController : ControllerBase
     {
         private readonly IAccountService _accountService;
@@ -22,18 +22,15 @@ namespace Rental_House_Backend.Controllers
             this._userManager = userManager;
 
         }
-        
+
 
         [HttpPost]
         [Authorize(Roles = "user,admin")]
-        public async Task<IActionResult> ChangePassword(string username, string password)
+        public async Task<IActionResult> ChangePassword(string password)
         {
+            var id = User.Claims.FirstOrDefault(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value;
+            var user = await _userManager.FindByIdAsync(id);
 
-            var user = await _userManager.FindByNameAsync(username);
-            if(user == null)
-            {
-                return BadRequest("Invalid Usrname");
-            }
             var code = await _userManager.GeneratePasswordResetTokenAsync(user);
 
             var result = await _userManager.ResetPasswordAsync(user, code, password);
@@ -48,8 +45,8 @@ namespace Rental_House_Backend.Controllers
 
 
         [HttpPost]
-        [Authorize(Roles ="admin")]
-        public async Task<IActionResult> ResetPassword(string username,string password)
+        [Authorize(Roles = "admin")]
+        public async Task<IActionResult> ResetPassword(string username, string password)
         {
             var user = await _userManager.FindByNameAsync(username);
             if (user == null)
@@ -73,21 +70,17 @@ namespace Rental_House_Backend.Controllers
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> Register(Account model)
         {
-            if (ModelState.IsValid)
+            var user = new ApplicationUser { UserName = model.Username, Email = null, Room = model.RoomId };
+            var result = await _userManager.CreateAsync(user, model.Password);
+
+            if (result.Succeeded)
             {
-               var user = new ApplicationUser { UserName = model.Username, Email = null, Room = model.RoomId };
-                var result = await _userManager.CreateAsync(user, model.Password);
-
-                if (result.Succeeded)
-                {
-                    var _user = await _userManager.FindByNameAsync(model.Username);
-                    await _userManager.AddToRoleAsync(_user, "user");
-                    return Ok("Reset password successfully!");
-                }
+                var _user = await _userManager.FindByNameAsync(model.Username);
+                await _userManager.AddToRoleAsync(_user, "user");
+                return Ok("Reset password successfully!");
             }
-            return BadRequest(); 
+            return BadRequest();
         }
-
 
     }
 }
