@@ -10,7 +10,7 @@ namespace Rental_House_Backend.Controllers
 
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "admin")]
+    
     public class OtherFeeController : ControllerBase
     {
         private readonly IOtherFeeServicecs otherFeeServicecs;
@@ -22,6 +22,7 @@ namespace Rental_House_Backend.Controllers
 
         // GET api/<ValuesController>/5
         [HttpGet("{id}")]
+        [Authorize(Roles = "admin,user")]
         public IActionResult Get(int id)
         {
             return Ok(otherFeeServicecs.GetOtherFee(id));
@@ -30,6 +31,7 @@ namespace Rental_House_Backend.Controllers
 
         // PUT api/<ValuesController>/5
         [HttpPut("{id}")]
+        [Authorize(Roles = "admin")]
         public IActionResult Put(OtherFee otherFee) 
         {
             return Ok(otherFeeServicecs.UpdateOtherfee(otherFee)); 
