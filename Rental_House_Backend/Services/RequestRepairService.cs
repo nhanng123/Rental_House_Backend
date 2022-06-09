@@ -29,8 +29,9 @@ namespace Rental_House_Backend.Services
            if(request.Status.Equals("Đang Đợi"))
             {
                 request.Status = "Đang Sửa Chữa";
+               
             }
-           if(request.Status.Equals("Đang Sửa Chữa"))
+           else if (request.Status.Equals("Đang Sửa Chữa"))
             {
                 request.Status = "Đã Hoàn Thành";
             }
