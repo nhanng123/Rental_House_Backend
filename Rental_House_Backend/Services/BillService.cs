@@ -145,6 +145,7 @@ namespace Rental_House_Backend.Services
                     totalProfit += monthProfit;
                     monthProfit = 0;
                     month++;
+
                     i--;
 
                     if(month > 12)
@@ -152,6 +153,15 @@ namespace Rental_House_Backend.Services
                         break;
                     }
                 }
+            }
+
+            profit.Add(monthProfit);
+            totalProfit += monthProfit;
+
+            monthProfit = 0;
+            for (int i = month+1;i <= 12; i++)
+            {
+                profit.Add(monthProfit);
             }
 
             profit.Add(totalProfit);

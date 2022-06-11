@@ -82,11 +82,11 @@ namespace Rental_House_Backend.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         [Route("/api/Bill/Profit")]
-        public IActionResult GetProfit()
+        public IActionResult GetProfit(int year)
         {
-            return Ok();
+            return Ok(billService.GetProfit(year));
         }
     }
 }
