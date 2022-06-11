@@ -80,5 +80,13 @@ namespace Rental_House_Backend.Controllers
         {
             return Ok(billService.RemoveBill(id));
         }
+
+        [HttpGet]
+        [Authorize(Roles = "admin")]
+        [Route("/api/Bill/Profit")]
+        public IActionResult GetProfit()
+        {
+            return Ok();
+        }
     }
 }

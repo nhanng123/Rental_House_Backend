@@ -38,7 +38,7 @@ namespace Rental_House_Backend.Services
             var bill_ = billDbContext.Bill.OrderByDescending(x => x.Id).FirstOrDefault(x => x.Room == roomId);
 
             ElectricBill electricBill = new ElectricBill() { BillId = bill_.Id };
-          
+
             electricBill.RoomId = roomId;
             electricBill.Old_Number = (pre_elec_num != null ? pre_elec_num.Electric_Number : 0);
             electricBill.Electric_Number = electric_num;
@@ -48,7 +48,7 @@ namespace Rental_House_Backend.Services
             billDbContext.ElectricBill.Add(electricBill);
 
             WaterBill waterBill = new WaterBill() { BillId = bill_.Id };
-           
+
             waterBill.RoomId = roomId;
             waterBill.Old_Number = (pre_water_num != null ? pre_water_num.Water_Number : 0);
             waterBill.Water_Number = water_num;
@@ -76,7 +76,7 @@ namespace Rental_House_Backend.Services
 
 
             billDbContext.Bill.Remove(bill);
-            if(pre_elec_num != null && pre_water_num != null)
+            if (pre_elec_num != null && pre_water_num != null)
             {
                 billDbContext.ElectricBill.Remove(pre_elec_num);
                 billDbContext.WaterBill.Remove(pre_water_num);
@@ -120,6 +120,43 @@ namespace Rental_House_Backend.Services
         public List<WaterBill> GetRoomWaterBills(int roomId)
         {
             return billDbContext.WaterBill.Where(x => x.RoomId == roomId).ToList();
+        }
+
+        public List<long> GetProfit(int year)
+        {
+            List<long> profit = new List<long>();
+            profit.Add(year);
+
+            List<Bill> bills = billDbContext.Bill.Where(x => x.Time.Year == year).OrderBy(x => x.Time).ToList();
+            int month = 1;
+            long monthProfit = 0;
+            long totalProfit = 0;
+
+            for (int i = 0; i < bills.Count; i++)
+            {
+                var bill = bills[i];
+                if (bill.Time.Month == month)
+                {
+                    monthProfit += bill.Total;
+                }
+                else
+                {
+                    profit.Add(monthProfit);
+                    totalProfit += monthProfit;
+                    monthProfit = 0;
+                    month++;
+                    i--;
+
+                    if(month > 12)
+                    {
+                        break;
+                    }
+                }
+            }
+
+            profit.Add(totalProfit);
+
+            return profit;
         }
     }
 }

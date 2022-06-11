@@ -13,5 +13,6 @@ namespace Rental_House_Backend.Services
         Boolean Pay(int id);
         List<ElectricBill> GetRoomElectricBills(int roomId);
         List<WaterBill> GetRoomWaterBills(int roomId);
+        List<long> GetProfit(int year);
     }
 }
