@@ -22,6 +22,7 @@ namespace Rental_House_Backend.Services
 
             Bill bill = new Bill();
             bill.Room = roomId;
+            bill.RoomName = room.Name;
             bill.Price = (int)room.Price;
             bill.Time = today;
             bill.Electric_Num = electric_num - (pre_elec_num != null ? pre_elec_num.Electric_Number : 0);

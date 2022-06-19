@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Rental_House_Backend.Models
 {
@@ -15,10 +16,18 @@ namespace Rental_House_Backend.Models
         public string Nationality { get; set; }
         public string Company { get; set; }
         public string Phone { get; set; }
-        public int Room { get; set; }
+
+        [ForeignKey("Room")]
+        public int RoomId { get; set; }
+
+        public string RoomName { get; set; }
         [DataType(DataType.Date)]
         public DateTime StartDate { get; set; }
         [DataType(DataType.Date)]
         public DateTime EndDate { get; set; }
+
+        public Room Room { get; set; }
+
+        
     }
 }

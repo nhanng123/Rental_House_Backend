@@ -12,8 +12,8 @@ using Rental_House_Backend.Data;
 namespace Rental_House_Backend.Migrations
 {
     [DbContext(typeof(RentalHouseDbContext))]
-    [Migration("20220530083838_AddModelDB")]
-    partial class AddModelDB
+    [Migration("20220619025141_UpdateDatabase")]
+    partial class UpdateDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -302,27 +302,6 @@ namespace Rental_House_Backend.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Rental_House_Backend.Models.Account", b =>
-                {
-                    b.Property<string>("Username")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Role")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("RoomId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Username");
-
-                    b.ToTable("accounts", (string)null);
-                });
-
             modelBuilder.Entity("Rental_House_Backend.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
@@ -417,6 +396,9 @@ namespace Rental_House_Backend.Migrations
                     b.Property<int>("Room")
                         .HasColumnType("int");
 
+                    b.Property<string>("RoomName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("Time")
                         .HasColumnType("datetime2");
 
@@ -460,10 +442,11 @@ namespace Rental_House_Backend.Migrations
                     b.Property<int>("Room")
                         .HasColumnType("int");
 
+                    b.Property<string>("RoomName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("Status")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false);
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -494,32 +477,32 @@ namespace Rental_House_Backend.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Initial_Address")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Job")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Nationality")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Phone")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Room")
+                    b.Property<int>("RoomId")
                         .HasColumnType("int");
+
+                    b.Property<string>("RoomName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("RoomId");
 
                     b.ToTable("customers", (string)null);
                 });
@@ -531,6 +514,9 @@ namespace Rental_House_Backend.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("BillId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("Electric_Date")
                         .HasColumnType("datetime2");
@@ -552,7 +538,7 @@ namespace Rental_House_Backend.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("electricbills", (string)null);
+                    b.ToTable("electrics", (string)null);
                 });
 
             modelBuilder.Entity("Rental_House_Backend.Models.OtherFee", b =>
@@ -600,6 +586,9 @@ namespace Rental_House_Backend.Migrations
                     b.Property<int>("Room")
                         .HasColumnType("int");
 
+                    b.Property<string>("RoomName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Status")
                         .HasColumnType("nvarchar(max)");
 
@@ -623,21 +612,16 @@ namespace Rental_House_Backend.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Number_Of_People")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(0);
+                        .HasColumnType("int");
 
                     b.Property<double>("Price")
                         .HasColumnType("float");
 
                     b.Property<string>("State")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(max)")
-                        .HasDefaultValue("Available");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -651,6 +635,9 @@ namespace Rental_House_Backend.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("BillId")
+                        .HasColumnType("int");
 
                     b.Property<int>("Old_Number")
                         .HasColumnType("int");
@@ -672,7 +659,7 @@ namespace Rental_House_Backend.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("waterbills", (string)null);
+                    b.ToTable("waters", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -724,6 +711,17 @@ namespace Rental_House_Backend.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Rental_House_Backend.Models.Customer", b =>
+                {
+                    b.HasOne("Rental_House_Backend.Models.Room", "Room")
+                        .WithMany()
+                        .HasForeignKey("RoomId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Room");
                 });
 #pragma warning restore 612, 618
         }

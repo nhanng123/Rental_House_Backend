@@ -13,6 +13,8 @@ namespace Rental_House_Backend.Services
         }
         public bool AddRequestRepair(RequestRepair requestRepair)
         {
+            var room = repairDbContext.Room.FirstOrDefault(x => x.Id == requestRepair.Room);
+            requestRepair.RoomName = room.Name;
             repairDbContext.RequestRepair.Add(requestRepair);
             repairDbContext.SaveChanges();
             return true;

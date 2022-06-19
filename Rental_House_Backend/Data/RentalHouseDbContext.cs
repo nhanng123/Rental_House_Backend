@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using Rental_House_Backend.Configuration;
 using Rental_House_Backend.Models;
 
 namespace Rental_House_Backend.Data
@@ -21,16 +20,16 @@ namespace Rental_House_Backend.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfiguration(new CustomerConfiguration());
-            modelBuilder.ApplyConfiguration(new RoomConfiguration());
-            modelBuilder.ApplyConfiguration(new BillConfiguration());
-            modelBuilder.ApplyConfiguration(new BookingConfiguration());
-            modelBuilder.ApplyConfiguration(new RequesRepairConfiguration());
-            modelBuilder.ApplyConfiguration(new ElectricBillConfiguration());
-            modelBuilder.ApplyConfiguration(new WaterBillConfiguration());
-            modelBuilder.ApplyConfiguration(new OtherFeeConfiguration());
-            modelBuilder.ApplyConfiguration(new AccountConfiguration());
             base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Customer>().ToTable("customers");
+            modelBuilder.Entity<Room>().ToTable("rooms");
+            modelBuilder.Entity<Bill>().ToTable("bills");
+            modelBuilder.Entity<Booking>().ToTable("bookings");
+            modelBuilder.Entity<RequestRepair>().ToTable("repairs");
+            modelBuilder.Entity<OtherFee>().ToTable("otherfees")
+                .HasKey(x => x.AreaID);
+            modelBuilder.Entity<ElectricBill>().ToTable("electrics");
+            modelBuilder.Entity<WaterBill>().ToTable("waters");
         }
 
         public DbSet<Room> Room { get; set; }
@@ -41,7 +40,6 @@ namespace Rental_House_Backend.Data
         public DbSet<ElectricBill> ElectricBill { get; set; }
         public DbSet<WaterBill> WaterBill { get; set; }
         public DbSet<OtherFee> OtherFee { get; set; }
-        public DbSet<Account> Account { get; set; }
 
     }
 }

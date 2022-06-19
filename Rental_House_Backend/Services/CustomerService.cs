@@ -1,4 +1,5 @@
-﻿using Rental_House_Backend.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using Rental_House_Backend.Data;
 using Rental_House_Backend.Models;
 
 namespace Rental_House_Backend.Services
@@ -13,7 +14,7 @@ namespace Rental_House_Backend.Services
         }
         public bool AddCustomer(Customer customer)
         {
-            var room = _customerDbContext.Room.FirstOrDefault(x => x.Id == customer.Room);
+            var room = _customerDbContext.Room.FirstOrDefault(x => x.Id == customer.RoomId);
             var otherfee = _customerDbContext.OtherFee.Find(1);
             room.Number_Of_People += 1;
 
@@ -29,7 +30,7 @@ namespace Rental_House_Backend.Services
                 }
             }
            
-            
+            customer.RoomName = room.Name;
             _customerDbContext.Room.Update(room);
             _customerDbContext.Customer.Add(customer);
             _customerDbContext.SaveChanges();
@@ -44,7 +45,7 @@ namespace Rental_House_Backend.Services
             {
                 return false;
             }
-            if(customer.Room != -1)
+            if(customer.RoomId != -1)
             {
                 var room = _customerDbContext.Room.Find(customer.Room);
                 room.Number_Of_People -= 1;
@@ -60,7 +61,7 @@ namespace Rental_House_Backend.Services
                         room.Price -= otherfee.BonusPeopleFee;
                     }
                 }
-                customer.Room = -1;
+                customer.RoomId = -1;
 
                 _customerDbContext.Room.Update(room);
             }
@@ -73,7 +74,7 @@ namespace Rental_House_Backend.Services
             if (roomId != 0)
             {
                 var toRoom = _customerDbContext.Room.Find(roomId);
-                customer.Room = roomId;
+                customer.RoomId = roomId;
                 toRoom.Number_Of_People += 1;
                
                 if (toRoom.Number_Of_People == 1)
@@ -91,7 +92,7 @@ namespace Rental_House_Backend.Services
                 _customerDbContext.Room.Update(toRoom);
             }
 
-            if (customer.Room == -1)
+            if (customer.RoomId == -1)
             {
                 customer.EndDate = DateTime.Today;
                
@@ -109,7 +110,7 @@ namespace Rental_House_Backend.Services
 
         public List<Customer> GetCurrentCustomers()
         {
-            return _customerDbContext.Customer.Where(x => x.Room > 0).ToList();
+            return _customerDbContext.Customer.Where(x => x.RoomId > 0).ToList();
         }
 
         public Customer GetCustomer(int customerId)
@@ -119,12 +120,12 @@ namespace Rental_House_Backend.Services
 
         public List<Customer> GetOldCustomers()
         {
-            return _customerDbContext.Customer.Where(x => x.Room == -1).ToList();
+            return _customerDbContext.Customer.Where(x => x.RoomId == -1).ToList();
         }
 
         public List<Customer> GetRoomCustomers(int roomId)
         {
-            return _customerDbContext.Customer.Where(x => x.Room==roomId).ToList();
+            return _customerDbContext.Customer.Where(x => x.RoomId==roomId).ToList();
         }
 
         public bool RemoveCustomer(int customerId)
@@ -132,7 +133,7 @@ namespace Rental_House_Backend.Services
 
             Customer cus = _customerDbContext.Customer.Find(customerId);
         
-            if(cus.Room != 0)
+            if(cus.RoomId != 0)
             {
                 var room = _customerDbContext.Room.Find(cus.Room);
                 room.Number_Of_People--;

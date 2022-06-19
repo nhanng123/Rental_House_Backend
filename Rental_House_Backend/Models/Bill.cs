@@ -7,6 +7,7 @@ namespace Rental_House_Backend.Models
         public int Id { get; private set; }
         public int Room { get; set; }
         public int Price { get; set; }
+        public string RoomName { get; set; }
 
         [DataType(DataType.Date)]
         public DateTime Time { get; set; }

@@ -8,6 +8,7 @@ namespace Rental_House_Backend.Models
         public string Name { get; set; }
         public string Phone { get; set; }
         public int Room { get; set; }
+        public string RoomName { get; set; }
         public string Note { get; set; }
         public bool Status { get; set; }
 

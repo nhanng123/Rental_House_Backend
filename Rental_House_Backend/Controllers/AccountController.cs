@@ -13,12 +13,11 @@ namespace Rental_House_Backend.Controllers
 
     public class AccountController : ControllerBase
     {
-        private readonly IAccountService _accountService;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public AccountController(IAccountService accountService, UserManager<ApplicationUser> userManager)
+        public AccountController( UserManager<ApplicationUser> userManager)
         {
-            _accountService = accountService;
+          
             this._userManager = userManager;
 
         }
