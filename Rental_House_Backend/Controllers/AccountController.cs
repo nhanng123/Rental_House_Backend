@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Rental_House_Backend.Data;
 using Rental_House_Backend.Models;
 using Rental_House_Backend.Services;
 
@@ -14,11 +15,13 @@ namespace Rental_House_Backend.Controllers
     public class AccountController : ControllerBase
     {
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RentalHouseDbContext _context;
 
-        public AccountController( UserManager<ApplicationUser> userManager)
+        public AccountController( UserManager<ApplicationUser> userManager, RentalHouseDbContext _context)
         {
           
             this._userManager = userManager;
+            this._context = _context;
 
         }
 
@@ -79,6 +82,24 @@ namespace Rental_House_Backend.Controllers
                 return Ok("Reset password successfully!");
             }
             return BadRequest();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetUser()
+        {
+            return Ok( _context.Users.ToList());
+        }
+
+        [HttpPost("{username}")]
+        public async Task<IActionResult> DeleteAccount(string username)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+            if(user == null)
+            {
+                return BadRequest(false);
+            }
+            await _userManager.DeleteAsync(user);
+            return Ok(true);
         }
 
     }
